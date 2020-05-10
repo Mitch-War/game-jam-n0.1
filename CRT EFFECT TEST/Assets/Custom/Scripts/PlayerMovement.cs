@@ -27,6 +27,7 @@ public class PlayerMovement : MonoBehaviour
     public bool onGround = false;
     public float groundLength = 0.4f;
 
+    public bool isDead;
     void Start()
     {
 
@@ -34,34 +35,42 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        //Shoots a raycast to see if character is touching ground.
-        onGround = Physics.Raycast(transform.position, Vector3.down, groundLength, groundLayer);
-
-        if (Input.GetButtonDown("Jump")) 
+        if (!isDead)
         {
-            jumpTimer = Time.time + jumpDelay;
-        }
+            //Shoots a raycast to see if character is touching ground.
+            onGround = Physics.Raycast(transform.position, Vector3.down, groundLength, groundLayer);
 
-        direction = new Vector3(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"), 0);
+            if (Input.GetButtonDown("Jump"))
+            {
+                jumpTimer = Time.time + jumpDelay;
+            }
+
+            direction = new Vector3(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"), 0);
+        }
+        
     }
 
     //Executes all physics based stuff
     void FixedUpdate()
     {
-        MoveCharacter(direction.x);
-
-        if (Mathf.Abs(rb.velocity.x) > maxSpeed) 
+        if (!isDead)
         {
+            MoveCharacter(direction.x);
 
-            rb.velocity = new Vector3(Mathf.Sign(rb.velocity.x) * maxSpeed, rb.velocity.y);
+            if (Mathf.Abs(rb.velocity.x) > maxSpeed)
+            {
+
+                rb.velocity = new Vector3(Mathf.Sign(rb.velocity.x) * maxSpeed, rb.velocity.y);
+            }
+
+            if (jumpTimer > Time.time && onGround)
+            {
+                Jump();
+            }
+
+            ModifyPhysics();
         }
-
-        if (jumpTimer > Time.time && onGround) 
-        {
-            Jump();
-        }
-
-        ModifyPhysics();
+        
     }
 
     //Moves the character
@@ -86,7 +95,7 @@ public class PlayerMovement : MonoBehaviour
                 rb.drag = 0f;
             }
 
-            
+            rb.useGravity = false;
         }
         else 
         {
@@ -119,5 +128,11 @@ public class PlayerMovement : MonoBehaviour
     {
         Gizmos.color = Color.cyan;
         Gizmos.DrawLine(transform.position, transform.position + Vector3.down * groundLength);
+    }
+
+    public void OnDied()
+    {
+        Instantiate(Resources.Load<Transform>("BulletEffect"), transform.position, transform.rotation);
+        Destroy(gameObject);
     }
 }
