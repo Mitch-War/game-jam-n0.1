@@ -52,6 +52,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (Mathf.Abs(rb.velocity.x) > maxSpeed) 
         {
+
             rb.velocity = new Vector3(Mathf.Sign(rb.velocity.x) * maxSpeed, rb.velocity.y);
         }
 
@@ -85,12 +86,12 @@ public class PlayerMovement : MonoBehaviour
                 rb.drag = 0f;
             }
 
-            rb.useGravity = false;
+            
         }
         else 
         {
             rb.useGravity = true;
-            rb.drag = linearDrag * 0.15f;
+            rb.drag = linearDrag;
 
             if (rb.velocity.y < 0)
             {
