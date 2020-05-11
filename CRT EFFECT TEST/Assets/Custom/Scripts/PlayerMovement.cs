@@ -154,4 +154,8 @@ public class PlayerMovement : MonoBehaviour
         Instantiate(Resources.Load<Transform>("BulletEffect"), transform.position, transform.rotation);
         Destroy(gameObject);
     }
+    public void Knockback(float knocked)
+    {
+        rb.AddForce(.1f * knocked, .1f, 0);
+    }
 }
