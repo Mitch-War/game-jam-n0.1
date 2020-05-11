@@ -30,7 +30,7 @@ public class Bullet : MonoBehaviour
         } else if(other.gameObject.tag == "Player")
         {
             print("collided");
-            other.gameObject.GetComponent<Rigidbody>().AddForce(1000 * GetComponent<Rigidbody>().velocity.x, 5000, 0);
+            other.gameObject.GetComponent<PlayerMovement>().Knockback(GetComponent<Rigidbody>().velocity.x);
             Instantiate(Resources.Load<Transform>("BulletEffect"), transform.position, Quaternion.Euler(other.gameObject.transform.forward));
             Destroy(gameObject);
         } else

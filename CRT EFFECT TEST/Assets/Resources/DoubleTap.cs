@@ -5,7 +5,7 @@ using UnityEngine;
 public class DoubleTap : MonoBehaviour
 {
     private float timebetween;
-    private bool tapped;
+    public bool tapped;
     private KeyCode key;
     // Start is called before the first frame update
     void Start()
@@ -17,13 +17,14 @@ public class DoubleTap : MonoBehaviour
     void Update()
     {
         
-        if(Input.GetKey(KeyCode.D) && timebetween <= 0)
+        if(Input.GetKey(KeyCode.D) && timebetween <= -.25f || Input.GetKey(KeyCode.D) && key != KeyCode.D)
         {
             key = KeyCode.D;
             tapped = true;
             timebetween = .25f;
         }
-        if (Input.GetKey(KeyCode.A) && timebetween <= 0)
+        
+        if (Input.GetKey(KeyCode.A) && timebetween <= -.25f || Input.GetKey(KeyCode.A) && key != KeyCode.A)
         {
             key = KeyCode.A;
             tapped = true;
@@ -32,7 +33,7 @@ public class DoubleTap : MonoBehaviour
         if (tapped)
         {
             timebetween -= Time.deltaTime;
-            if(timebetween < .1)
+            if(timebetween <.23f)
             {
                 foreach (KeyCode vKey in System.Enum.GetValues(typeof(KeyCode)))
                 {
@@ -40,7 +41,6 @@ public class DoubleTap : MonoBehaviour
                     {
 
                         print("Tapped");
-                        timebetween = 0;
                         GetComponent<PlayerMovement>().Dash(key);
                         tapped = false;
 

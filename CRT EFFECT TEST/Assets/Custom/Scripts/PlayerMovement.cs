@@ -29,6 +29,7 @@ public class PlayerMovement : MonoBehaviour
 
     public bool isDead;
     private int dashAmount = 1;
+    private Vector3 dashVector;
     void Start()
     {
 
@@ -36,6 +37,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        dashVector = rb.velocity;
         if (!isDead)
         {
             //Shoots a raycast to see if character is touching ground.
@@ -157,5 +159,15 @@ public class PlayerMovement : MonoBehaviour
     public void Knockback(float knocked)
     {
         rb.AddForce(.1f * knocked, .1f, 0);
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        
+        if (collision.gameObject.name == "Shieldy Boi")
+        {
+            
+            print("hit" + collision.gameObject.name);
+            rb.AddForce(-6500f * rb.velocity.x, -4000f * rb.velocity.x, 0);
+        }
     }
 }
