@@ -4,26 +4,28 @@ using UnityEngine;
 
 public class Holder : MonoBehaviour
 {
-    private Transform[] items;
+    public Transform[] items;
     private int i;
+    public Transform location;
     // Start is called before the first frame update
     void Start()
     {
-        items = GetComponentsInChildren<Transform>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        items[1].position = location.position;
+        items[1].rotation = location.rotation;
         if (Input.GetKey(KeyCode.LeftShift))
         {
-            items[1].gameObject.SetActive(false);
-            items[2].gameObject.SetActive(true);
+            items[0].gameObject.SetActive(false);
+            items[1].gameObject.SetActive(true);
         }
         else
         {
-            items[2].gameObject.SetActive(false);
-            items[1].gameObject.SetActive(true);
+            items[1].gameObject.SetActive(false);
+            items[0].gameObject.SetActive(true);
         }
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);

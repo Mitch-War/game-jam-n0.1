@@ -24,7 +24,20 @@ public class Bullet : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        Instantiate(Resources.Load<Transform>("BulletEffect"), transform.position, Quaternion.Euler(other.gameObject.transform.forward));
-        Destroy(gameObject);
+        if(other.gameObject.tag == "Mirror")
+        {
+            
+        } else if(other.gameObject.tag == "Player")
+        {
+            print("collided");
+            other.gameObject.GetComponent<Rigidbody>().AddForce(300 * GetComponent<Rigidbody>().velocity.x, 1000, 0);
+            Instantiate(Resources.Load<Transform>("BulletEffect"), transform.position, Quaternion.Euler(other.gameObject.transform.forward));
+            Destroy(gameObject);
+        } else
+        {
+            Instantiate(Resources.Load<Transform>("BulletEffect"), transform.position, Quaternion.Euler(other.gameObject.transform.forward));
+            Destroy(gameObject);
+        }
+        
     }
 }

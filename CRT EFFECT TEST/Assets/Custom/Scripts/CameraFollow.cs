@@ -28,6 +28,7 @@ public class CameraFollow : MonoBehaviour
                 target.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
                 target.GetComponentInChildren<Holder>().enabled = false;
                 target.GetComponentInChildren<ItemController>().enabled = false;
+                target.GetComponent<PlayerMovement>().isDead = true;
                 timeDead -= Time.deltaTime;
 
             }
